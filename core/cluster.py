@@ -8,6 +8,8 @@ from core.machine import Machine
 并提供了多种属性和方法来查询集群的状态、添加机器和作业。
 
 """
+
+
 class Cluster(object):
     """
 
@@ -30,6 +32,7 @@ class Cluster(object):
     state - 集群的所有状态信息
 
     """
+
     def __init__(self):
         self.machines = []
         self.jobs = []

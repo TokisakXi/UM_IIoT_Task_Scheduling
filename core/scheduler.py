@@ -9,6 +9,7 @@ class Scheduler(object):
     valid_pairs - 字典。存储有效的机器和任务对
 
     """
+
     def __init__(self, env, algorithm):
         self.env = env
         self.algorithm = algorithm

@@ -16,37 +16,16 @@ machine_door - 机器的状态
 """
 
 
-class MachineConfig(object):
-    """
-
-    machine配置类，用于定义每个机器的配置，包括cpu容量、内存容量、磁盘容量
-
-    """
-    idx = 0 # 类变量，用于给每个MachineConfig实例分配一个唯一id，会自动递增
-
-    def __init__(self, cpu_capacity, memory_capacity, disk_capacity, cpu=None, memory=None, disk=None):
-        self.cpu_capacity = cpu_capacity
-        self.memory_capacity = memory_capacity
-        self.disk_capacity = disk_capacity
-
-        # 如果没有传入cpu, memory, disk，则使用默认的cpu_capacity, memory_capacity, disk_capacity
-        self.cpu = cpu_capacity if cpu is None else cpu
-        self.memory = memory_capacity if memory is None else memory
-        self.disk = disk_capacity if disk is None else disk
-
-        self.id = MachineConfig.idx
-        MachineConfig.idx += 1
-
-
 class MachineDoor(Enum):
-    TASK_IN = 0 # 机器正在接收任务
-    TASK_OUT = 1 # 机器正在完成任务
-    NULL = 3 # 机器没有任务正在进行
+    TASK_IN = 0  # 机器正在接收任务
+    TASK_OUT = 1  # 机器正在完成任务
+    NULL = 3  # 机器没有任务正在进行
 
 
 class Machine(object):
     def __init__(self, machine_config):
         self.id = machine_config.id
+        self.group = machine_config.group
         self.cpu_capacity = machine_config.cpu_capacity
         self.memory_capacity = machine_config.memory_capacity
         self.disk_capacity = machine_config.disk_capacity
@@ -54,9 +33,9 @@ class Machine(object):
         self.memory = machine_config.memory
         self.disk = machine_config.disk
 
-        self.cluster = None # 表示机器所在的集群
-        self.task_instances = [] # 用于存储该机器上正在运行的任务实例
-        self.machine_door = MachineDoor.NULL # 刚创建好的机器上没有任务正在运行
+        self.cluster = None  # 表示机器所在的集群
+        self.task_instances = []  # 用于存储该机器上正在运行的任务实例
+        self.machine_door = MachineDoor.NULL  # 刚创建好的机器上没有任务正在运行
 
     def run_task_instance(self, task_instance):
         """
@@ -83,7 +62,7 @@ class Machine(object):
         self.cpu += task_instance.cpu
         self.memory += task_instance.memory
         self.disk += task_instance.disk
-        self.machine_door = MachineDoor.TASK_OUT # 将机器的状态设置为Task_Out表示机器任务完成
+        self.machine_door = MachineDoor.TASK_OUT  # 将机器的状态设置为Task_Out表示机器任务完成
 
     @property
     def running_task_instances(self):
@@ -124,8 +103,8 @@ class Machine(object):
         :return:
         """
         return self.cpu >= task.task_config.cpu and \
-               self.memory >= task.task_config.memory and \
-               self.disk >= task.task_config.disk
+            self.memory >= task.task_config.memory and \
+            self.disk >= task.task_config.disk
 
     @property
     def feature(self):
@@ -151,6 +130,7 @@ class Machine(object):
         """
         return {
             'id': self.id,
+            'group': self.group,
             'cpu_capacity': self.cpu_capacity,
             'memory_capacity': self.memory_capacity,
             'disk_capacity': self.disk_capacity,

@@ -11,6 +11,7 @@ class Simulation(object):
 
 
     """
+
     def __init__(self, env, cluster, task_broker, scheduler, event_file):
         self.env = env
         self.cluster = cluster
@@ -34,4 +35,4 @@ class Simulation(object):
     @property
     def finished(self):
         return self.task_broker.destroyed \
-               and len(self.cluster.unfinished_jobs) == 0
+            and len(self.cluster.unfinished_jobs) == 0
