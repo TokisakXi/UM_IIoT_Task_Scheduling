@@ -40,7 +40,7 @@ class Task(object):
         '''
         根据task_config中的配置信息，为Task创建多个TaskInstance实例，并将它们存储在task_instances列表中
         '''
-        # TODO 这段代码将来读
+
         # 通过TaskInstanceConfig类（配置类）
         task_instance_config = TaskInstanceConfig(task_config)
         for task_instance_index in range(int(self.task_config.instances_number)):

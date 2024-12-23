@@ -13,7 +13,6 @@ class RewardGiver(ABC):
             raise ValueError('Before calling method get_reward, the reward giver '
                              'must be attach to a simulation using method attach.')
 
-
 class MakespanRewardGiver(RewardGiver):
     name = 'Makespan'
 

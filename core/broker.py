@@ -33,13 +33,13 @@ class Broker(object):
 
     def run(self):
         """
-        一个协程，负责根据job_configs中定义的提交时间，按顺序生成作业并提交到集群中
+        一个Simpy协程，负责根据job_configs中定义的提交时间，按顺序生成作业并提交到集群中
         :return:
         """
         for job_config in self.job_configs:
             assert job_config.submit_time >= self.env.now
             yield self.env.timeout(job_config.submit_time - self.env.now)
             job = Broker.job_cls(self.env, job_config)
-            # print('a task arrived at time %f' % self.env.now)
+            # print(f"作业{int(job.id)} 于 {int(self.env.now)}到达集群")
             self.cluster.add_job(job)
         self.destroyed = True
